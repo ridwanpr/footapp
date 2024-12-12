@@ -25,12 +25,16 @@ class TeamDetails extends ConsumerWidget {
               child: Column(
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage(team.crest),
+                    backgroundImage: NetworkImage(team.crest.isNotEmpty
+                        ? team.crest
+                        : 'https://dummyimage.com/qvga'),
                     radius: 50.0,
                   ),
                   const SizedBox(height: 16.0),
                   Text(
-                    team.name,
+                    team.name.isNotEmpty
+                        ? team.name
+                        : 'Team name not available',
                     style: const TextStyle(
                       fontSize: 26.0,
                       fontWeight: FontWeight.bold,
@@ -38,31 +42,39 @@ class TeamDetails extends ConsumerWidget {
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Founded: ${team.founded}',
+                    team.founded != 0
+                        ? 'Founded: ${team.founded}'
+                        : 'Founded date not available',
                     style: const TextStyle(fontSize: 18.0),
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Venue: ${team.venue}',
+                    team.venue.isNotEmpty
+                        ? 'Venue: ${team.venue}'
+                        : 'Venue not available',
                     style: const TextStyle(fontSize: 18.0),
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Club Colors: ${team.clubColors}',
+                    team.clubColors.isNotEmpty
+                        ? 'Club Colors: ${team.clubColors}'
+                        : 'Club Colors not available',
                     style: const TextStyle(fontSize: 18.0),
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Area: ${team.area}',
+                    team.area.isNotEmpty
+                        ? 'Area: ${team.area}'
+                        : 'Area not available',
                     style: const TextStyle(fontSize: 18.0),
                   ),
                   const SizedBox(height: 16.0),
                   ElevatedButton(
-                    onPressed: () {
-                      if (team.website.isNotEmpty) {
-                        _launchURL(team.website);
-                      }
-                    },
+                    onPressed: team.website.isNotEmpty
+                        ? () {
+                            _launchURL(team.website);
+                          }
+                        : null, // Disable button if no website
                     child: const Text('Visit Official Website'),
                   ),
                   const SizedBox(height: 16.0),
@@ -73,18 +85,24 @@ class TeamDetails extends ConsumerWidget {
                     style:
                         TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: team.squad.length,
-                    itemBuilder: (context, index) {
-                      final player = team.squad[index];
-                      return ListTile(
-                        title: Text(player.name),
-                        subtitle: Text(player.position),
-                      );
-                    },
-                  ),
+                  team.squad.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: team.squad.length,
+                          itemBuilder: (context, index) {
+                            final player = team.squad[index];
+                            return ListTile(
+                              title: Text(player.name.isNotEmpty
+                                  ? player.name
+                                  : 'Player name not available'),
+                              subtitle: Text(player.position.isNotEmpty
+                                  ? player.position
+                                  : 'Position not available'),
+                            );
+                          },
+                        )
+                      : const Text('No players available'),
                 ],
               ),
             ),

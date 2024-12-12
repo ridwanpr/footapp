@@ -31,23 +31,26 @@ class TeamDetailModel {
 
   factory TeamDetailModel.fromJson(Map<String, dynamic> json) {
     return TeamDetailModel(
-      id: json['team']['id'].toString(),
-      name: json['team']['name'],
-      shortName: json['team']['shortName'],
-      crest: json['team']['crest'],
-      address: json['team']['address'],
-      website: json['team']['website'],
-      founded: json['team']['founded'],
-      clubColors: json['team']['clubColors'],
-      venue: json['team']['venue'],
-      area: json['team']['area']['name'],
-      runningCompetitions: (json['team']['runningCompetitions'] as List)
-          .map((e) => Competition.fromJson(e))
-          .toList(),
-      coach: Coach.fromJson(json['team']['coach']),
-      squad: (json['team']['squad'] as List)
-          .map((e) => Player.fromJson(e))
-          .toList(),
+      id: json['team']['id']?.toString() ??
+          '', // Default empty string if null
+      name: json['team']['name'] ?? '',
+      shortName: json['team']['shortName'] ?? '',
+      crest: json['team']['crest'] ?? '',
+      address: json['team']['address'] ?? '',
+      website: json['team']['website'] ?? '',
+      founded: json['team']['founded'] ?? 0,
+      clubColors: json['team']['clubColors'] ?? '',
+      venue: json['team']['venue'] ?? '',
+      area: json['team']['area']?['name'] ?? '',
+      runningCompetitions: (json['team']['runningCompetitions'] as List?)
+              ?.map((e) => Competition.fromJson(e))
+              .toList() ??
+          [], // Empty list if null
+      coach: Coach.fromJson(json['team']['coach'] ?? {}),
+      squad: (json['team']['squad'] as List?)
+              ?.map((e) => Player.fromJson(e))
+              .toList() ??
+          [], // Empty list if null
     );
   }
 }
@@ -65,9 +68,9 @@ class Competition {
 
   factory Competition.fromJson(Map<String, dynamic> json) {
     return Competition(
-      name: json['name'],
-      code: json['code'],
-      emblem: json['emblem'],
+      name: json['name'] ?? '',
+      code: json['code'] ?? '',
+      emblem: json['emblem'] ?? '',
     );
   }
 }
@@ -83,8 +86,8 @@ class Coach {
 
   factory Coach.fromJson(Map<String, dynamic> json) {
     return Coach(
-      name: json['name'],
-      nationality: json['nationality'],
+      name: json['name'] ?? '',
+      nationality: json['nationality'] ?? '',
     );
   }
 }
@@ -100,8 +103,8 @@ class Player {
 
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
-      name: json['name'],
-      position: json['position'],
+      name: json['name'] ?? '',
+      position: json['position'] ?? '',
     );
   }
 }
