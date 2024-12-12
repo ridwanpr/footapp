@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:footapp/components/competition_card.dart';
-import 'package:footapp/components/top_scorer_card.dart';
+import 'package:footapp/widgets/competition_card.dart';
+import 'package:footapp/screen/competitions.dart';
+import 'package:footapp/widgets/top_scorer_card.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -27,20 +28,30 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Competitions',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  Icon(
-                    Icons.chevron_right,
-                    color: Colors.grey.shade600,
-                  ),
-                ],
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Competitions(),
+                    ),
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Competitions',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: Colors.grey.shade600,
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 10),
               SizedBox(
@@ -111,7 +122,7 @@ class HomePage extends ConsumerWidget {
                       team: 'Real Madrid',
                       goals: 13,
                       backgroundColor: Colors.purple.shade700,
-                      competition: 'La Liga',
+                      competition: 'Ligue 1',
                     ),
                   ],
                 ),

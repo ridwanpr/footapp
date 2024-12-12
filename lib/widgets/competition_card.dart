@@ -38,7 +38,9 @@ class CompetitionCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: () {},
+          onTap: () {
+            
+          },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
