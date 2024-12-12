@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/providers/teams_provider.dart';
+import 'package:footapp/screen/standings.dart';
 
 class Teams extends ConsumerWidget {
   final String competitionCode;
@@ -17,24 +18,56 @@ class Teams extends ConsumerWidget {
       ),
       body: teamsResponse.when(
         data: (data) {
-          return ListView.builder(
-            itemCount: data.teams.length,
-            itemBuilder: (context, index) {
-              final team = data.teams[index];
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundImage:
-                      team.crest.isNotEmpty ? NetworkImage(team.crest) : null,
-                  child: team.crest.isEmpty
-                      ? const Icon(Icons.sports_soccer)
-                      : null,
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            Standings(competitionCode: competitionCode),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.bar_chart_sharp,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'Go to League Standings',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueGrey[900],
+                  ),
                 ),
-                title: Text(team.name),
-                subtitle: Text(
-                  'Founded: ${team.founded?.toString() ?? ""}',
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: data.teams.length,
+                  itemBuilder: (context, index) {
+                    final team = data.teams[index];
+                    return ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: team.crest.isNotEmpty
+                            ? NetworkImage(team.crest)
+                            : null,
+                        child: team.crest.isEmpty
+                            ? const Icon(Icons.sports_soccer)
+                            : null,
+                      ),
+                      title: Text(team.name),
+                      subtitle: Text(
+                        'Founded: ${team.founded?.toString() ?? ""}',
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+            ],
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
