@@ -3,12 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/widgets/competition_card.dart';
 import 'package:footapp/screen/competitions.dart';
 import 'package:footapp/widgets/top_scorer_card.dart';
+import 'package:footapp/providers/top_scorer_provider.dart'; // Import the provider
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final plScorers = ref.watch(topScorerProvider('PL'));
+    final bl1Scorers = ref.watch(topScorerProvider('BL1'));
+    final pdScorers = ref.watch(topScorerProvider('PD'));
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -28,6 +33,8 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 20),
+
+              // Competitions Section
               InkWell(
                 onTap: () {
                   Navigator.push(
@@ -105,28 +112,66 @@ class HomePage extends ConsumerWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    TopScorerCard(
-                      name: 'Lionel Messi',
-                      team: 'Inter Miami',
-                      goals: 15,
-                      backgroundColor: Colors.blue.shade700,
-                      competition: 'MLS',
+                    // PL (Premier League)
+                    plScorers.when(
+                      data: (scorers) {
+                        final topScorer =
+                            scorers.isNotEmpty ? scorers.first : null;
+                        return topScorer != null
+                            ? TopScorerCard(
+                                name: topScorer.name,
+                                team: topScorer.team,
+                                goals: topScorer.goals,
+                                backgroundColor: Colors.red.shade700,
+                                competition: 'Premier League',
+                              )
+                            : const SizedBox.shrink();
+                      },
+                      loading: () => const CircularProgressIndicator(),
+                      error: (error, stack) =>
+                          throw error, // Throw the error directly
                     ),
                     const SizedBox(width: 10),
-                    TopScorerCard(
-                      name: 'Cristiano Ronaldo',
-                      team: 'Al Nassr',
-                      goals: 14,
-                      backgroundColor: Colors.red.shade700,
-                      competition: 'Saudi Pro League',
+
+                    // BL1 (Bundesliga)
+                    bl1Scorers.when(
+                      data: (scorers) {
+                        final topScorer =
+                            scorers.isNotEmpty ? scorers.first : null;
+                        return topScorer != null
+                            ? TopScorerCard(
+                                name: topScorer.name,
+                                team: topScorer.team,
+                                goals: topScorer.goals,
+                                backgroundColor: Colors.blue.shade700,
+                                competition: 'Bundesliga',
+                              )
+                            : const SizedBox.shrink();
+                      },
+                      loading: () => const CircularProgressIndicator(),
+                      error: (error, stack) =>
+                          throw error, // Throw the error directly
                     ),
                     const SizedBox(width: 10),
-                    TopScorerCard(
-                      name: 'Kylian Mbappé',
-                      team: 'Real Madrid',
-                      goals: 13,
-                      backgroundColor: Colors.purple.shade700,
-                      competition: 'Ligue 1',
+
+                    // PD (La Liga)
+                    pdScorers.when(
+                      data: (scorers) {
+                        final topScorer =
+                            scorers.isNotEmpty ? scorers.first : null;
+                        return topScorer != null
+                            ? TopScorerCard(
+                                name: topScorer.name,
+                                team: topScorer.team,
+                                goals: topScorer.goals,
+                                backgroundColor: Colors.green.shade700,
+                                competition: 'La Liga',
+                              )
+                            : const SizedBox.shrink();
+                      },
+                      loading: () => const CircularProgressIndicator(),
+                      error: (error, stack) =>
+                          throw error, // Throw the error directly
                     ),
                   ],
                 ),
@@ -144,20 +189,6 @@ class HomePage extends ConsumerWidget {
                   leading: Icon(Icons.sports_soccer),
                   title: Text('Manchester United vs Chelsea'),
                   subtitle: Text('13 Dec, 2024 | 5:00 PM'),
-                ),
-              ),
-              const Card(
-                child: ListTile(
-                  leading: Icon(Icons.sports_soccer),
-                  title: Text('Liverpool vs Arsenal'),
-                  subtitle: Text('14 Dec, 2024 | 6:00 PM'),
-                ),
-              ),
-              const Card(
-                child: ListTile(
-                  leading: Icon(Icons.sports_soccer),
-                  title: Text('Liverpool vs Arsenal'),
-                  subtitle: Text('14 Dec, 2024 | 6:00 PM'),
                 ),
               ),
               const Card(
