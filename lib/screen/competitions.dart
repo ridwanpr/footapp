@@ -27,81 +27,85 @@ class Competitions extends ConsumerWidget {
             itemBuilder: (context, index) {
               final competition = data.competitions[index];
               final emblem = competition.emblem;
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          Teams(competitionCode: competition.code),
-                    ),
-                  );
-                },
-                child: Card(
-                  elevation: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.blueGrey.shade900.withOpacity(0.7),
-                          Colors.blueGrey.shade700.withOpacity(0.7),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+              if (competition.id != 2000) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            Teams(competitionCode: competition.code),
                       ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      leading: Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          gradient: const RadialGradient(
-                            colors: [
-                              Colors.blueAccent,
-                              Color.fromARGB(255, 9, 58, 99),
-                            ],
-                            center: Alignment.center,
-                            radius: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
+                    );
+                  },
+                  child: Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.blueGrey.shade900.withOpacity(0.7),
+                            Colors.blueGrey.shade700.withOpacity(0.7),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        child: Center(
-                          child: emblem != null && emblem.isNotEmpty
-                              ? Image.network(
-                                  emblem,
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.contain,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      const Icon(Icons.sports_soccer,
-                                          color: Colors.white),
-                                )
-                              : const Icon(Icons.sports_soccer,
-                                  size: 50, color: Colors.white),
-                        ),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      title: Text(
-                        competition.name,
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                      ),
-                      subtitle: Text(
-                        '${competition.startDate} - ${competition.endDate}',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Colors.white70,
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        leading: Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            gradient: const RadialGradient(
+                              colors: [
+                                Colors.blueAccent,
+                                Color.fromARGB(255, 9, 58, 99),
+                              ],
+                              center: Alignment.center,
+                              radius: 1,
                             ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Center(
+                            child: emblem != null && emblem.isNotEmpty
+                                ? Image.network(
+                                    emblem,
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.contain,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(Icons.sports_soccer,
+                                                color: Colors.white),
+                                  )
+                                : const Icon(Icons.sports_soccer,
+                                    size: 50, color: Colors.white),
+                          ),
+                        ),
+                        title: Text(
+                          competition.name,
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        subtitle: Text(
+                          '${competition.startDate} - ${competition.endDate}',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Colors.white70,
+                                  ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
+                );
+              }
             },
           );
         },
