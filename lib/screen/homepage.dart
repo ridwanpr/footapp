@@ -33,7 +33,6 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 20),
-
               // Competitions Section
               InkWell(
                 onTap: () {
@@ -97,7 +96,6 @@ class HomePage extends ConsumerWidget {
                   ],
                 ),
               ),
-
               // Top Scorers Section
               const SizedBox(height: 20),
               Text(
@@ -155,7 +153,6 @@ class HomePage extends ConsumerWidget {
                       error: (error, stack) => throw error,
                     ),
                     const SizedBox(width: 10),
-
                     // PD (La Liga)
                     pdScorers.when(
                       data: (scorers) {
@@ -179,7 +176,6 @@ class HomePage extends ConsumerWidget {
                   ],
                 ),
               ),
-
               // Latest Matches Section
               const SizedBox(height: 20),
               const Text(

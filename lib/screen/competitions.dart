@@ -27,7 +27,7 @@ class Competitions extends ConsumerWidget {
             itemBuilder: (context, index) {
               final competition = data.competitions[index];
               final emblem = competition.emblem;
-              if (competition.id != 2000) {
+              if (competition.id != 2018 && competition.id != 2000) {
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -105,6 +105,8 @@ class Competitions extends ConsumerWidget {
                     ),
                   ),
                 );
+              } else {
+                return Container();
               }
             },
           );
