@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/widgets/competition_card.dart';
 import 'package:footapp/screen/competitions.dart';
 import 'package:footapp/widgets/top_scorer_card.dart';
-import 'package:footapp/providers/top_scorer_provider.dart'; // Import the provider
+import 'package:footapp/providers/top_scorer_provider.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -127,9 +127,10 @@ class HomePage extends ConsumerWidget {
                               )
                             : const SizedBox.shrink();
                       },
-                      loading: () => const CircularProgressIndicator(),
-                      error: (error, stack) =>
-                          throw error, // Throw the error directly
+                      loading: () => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      error: (error, stack) => throw error,
                     ),
                     const SizedBox(width: 10),
 
@@ -148,9 +149,10 @@ class HomePage extends ConsumerWidget {
                               )
                             : const SizedBox.shrink();
                       },
-                      loading: () => const CircularProgressIndicator(),
-                      error: (error, stack) =>
-                          throw error, // Throw the error directly
+                      loading: () => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      error: (error, stack) => throw error,
                     ),
                     const SizedBox(width: 10),
 
@@ -169,9 +171,10 @@ class HomePage extends ConsumerWidget {
                               )
                             : const SizedBox.shrink();
                       },
-                      loading: () => const CircularProgressIndicator(),
-                      error: (error, stack) =>
-                          throw error, // Throw the error directly
+                      loading: () => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      error: (error, stack) => throw error,
                     ),
                   ],
                 ),
