@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:footapp/screen/favorites.dart';
 import 'package:footapp/screen/homepage.dart';
+import 'package:footapp/screen/favorites.dart';
+import 'package:footapp/providers/theme_provider.dart';
 
 class Tabs extends ConsumerStatefulWidget {
   const Tabs({super.key});
 
   @override
-  ConsumerState<Tabs> createState() {
-    return _TabsState();
-  }
+  TabsState createState() => TabsState();
 }
 
-class _TabsState extends ConsumerState<Tabs> {
+class TabsState extends ConsumerState<Tabs> {
   int _selectedPageIndex = 0;
 
   void _selectPage(int index) {
@@ -31,9 +30,23 @@ class _TabsState extends ConsumerState<Tabs> {
       activePageTitle = 'Favorites';
     }
 
+    final themeMode = ref.watch(themeProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(activePageTitle),
+        actions: [
+          IconButton(
+            icon: Icon(
+              themeMode == ThemeMode.dark
+                  ? Icons.nightlight_round
+                  : Icons.wb_sunny,
+            ),
+            onPressed: () {
+              toggleTheme(ref);
+            },
+          )
+        ],
       ),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/providers/standings_provider.dart';
+import 'package:footapp/providers/theme_provider.dart';
 
 class Standings extends ConsumerWidget {
   final String competitionCode;
@@ -10,11 +11,23 @@ class Standings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final standingsResponse = ref.watch(standingsProvider(competitionCode));
+    final themeMode = ref.watch(themeProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('League Standings'),
-        backgroundColor: Colors.blueGrey[900],
+        actions: [
+          IconButton(
+            icon: Icon(
+              themeMode == ThemeMode.dark
+                  ? Icons.nightlight_round
+                  : Icons.wb_sunny,
+            ),
+            onPressed: () {
+              toggleTheme(ref);
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

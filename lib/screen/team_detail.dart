@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/providers/team_detail_provider.dart';
+import 'package:footapp/providers/theme_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TeamDetails extends ConsumerWidget {
@@ -11,11 +12,24 @@ class TeamDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final teamDetail = ref.watch(teamDetailProvider(teamId));
+    final themeMode = ref.watch(themeProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Team Details'),
         backgroundColor: Colors.blueGrey[900],
+        actions: [
+          IconButton(
+            icon: Icon(
+              themeMode == ThemeMode.dark
+                  ? Icons.nightlight_round
+                  : Icons.wb_sunny,
+            ),
+            onPressed: () {
+              toggleTheme(ref);
+            },
+          )
+        ],
       ),
       body: teamDetail.when(
         data: (team) {

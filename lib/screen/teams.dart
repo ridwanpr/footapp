@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/providers/teams_provider.dart';
+import 'package:footapp/providers/theme_provider.dart';
 import 'package:footapp/screen/standings.dart';
 import 'package:footapp/screen/team_detail.dart';
 
@@ -12,10 +13,23 @@ class Teams extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final teamsResponse = ref.watch(teamsProvider(competitionCode));
+    final themeMode = ref.watch(themeProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Team List'),
+        actions: [
+          IconButton(
+            icon: Icon(
+              themeMode == ThemeMode.dark
+                  ? Icons.nightlight_round
+                  : Icons.wb_sunny,
+            ),
+            onPressed: () {
+              toggleTheme(ref);
+            },
+          )
+        ],
       ),
       body: teamsResponse.when(
         data: (data) {

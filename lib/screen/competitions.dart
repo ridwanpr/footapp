@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/models/competition_model.dart';
 import 'package:footapp/providers/competition_provider.dart';
+import 'package:footapp/providers/theme_provider.dart';
 import 'package:footapp/screen/teams.dart';
 
 class Competitions extends ConsumerWidget {
@@ -11,10 +12,23 @@ class Competitions extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<CompetitionsResponse> competitions =
         ref.watch(competitionsProvider);
+    final themeMode = ref.watch(themeProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Competitions'),
+        actions: [
+          IconButton(
+            icon: Icon(
+              themeMode == ThemeMode.dark
+                  ? Icons.nightlight_round
+                  : Icons.wb_sunny,
+            ),
+            onPressed: () {
+              toggleTheme(ref);
+            },
+          )
+        ],
       ),
       body: competitions.when(
         data: (data) {
