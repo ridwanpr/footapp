@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/providers/teams_provider.dart';
 import 'package:footapp/screen/standings.dart';
+import 'package:footapp/screen/team_detail.dart';
 
 class Teams extends ConsumerWidget {
   final String competitionCode;
@@ -60,9 +61,17 @@ class Teams extends ConsumerWidget {
                             : null,
                       ),
                       title: Text(team.name),
-                      subtitle: Text(
-                        'Founded: ${team.founded?.toString() ?? ""}',
-                      ),
+                      subtitle:
+                          Text('Founded: ${team.founded?.toString() ?? ""}'),
+                      onTap: () {
+                        // Navigate to Team Detail Screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TeamDetails(teamId: team.id),
+                          ),
+                        );
+                      },
                     );
                   },
                 ),

@@ -24,7 +24,7 @@ class HomePage extends ConsumerWidget {
               // Search Bar
               TextField(
                 decoration: InputDecoration(
-                  hintText: 'Search...',
+                  hintText: 'Search teams',
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
