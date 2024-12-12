@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/models/competition_model.dart';
 import 'package:footapp/providers/competition_provider.dart';
+import 'package:footapp/screen/teams.dart';
 
 class Competitions extends ConsumerWidget {
   const Competitions({super.key});
@@ -26,65 +27,77 @@ class Competitions extends ConsumerWidget {
             itemBuilder: (context, index) {
               final competition = data.competitions[index];
               final emblem = competition.emblem;
-              return Card(
-                elevation: 4,
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.blueGrey.shade900.withOpacity(0.7),
-                        Colors.blueGrey.shade700.withOpacity(0.7),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          Teams(competitionCode: competition.code),
                     ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ListTile(
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    leading: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        gradient: const RadialGradient(
-                          colors: [
-                            Colors.blueAccent,
-                            Color.fromARGB(255, 9, 58, 99)
-                          ],
-                          center: Alignment.center,
-                          radius: 1,
+                  );
+                },
+                child: Card(
+                  elevation: 4,
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.blueGrey.shade900.withOpacity(0.7),
+                          Colors.blueGrey.shade700.withOpacity(0.7),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      leading: Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          gradient: const RadialGradient(
+                            colors: [
+                              Colors.blueAccent,
+                              Color.fromARGB(255, 9, 58, 99),
+                            ],
+                            center: Alignment.center,
+                            radius: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        borderRadius: BorderRadius.circular(8),
+                        child: Center(
+                          child: emblem != null && emblem.isNotEmpty
+                              ? Image.network(
+                                  emblem,
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Icon(Icons.sports_soccer,
+                                          color: Colors.white),
+                                )
+                              : const Icon(Icons.sports_soccer,
+                                  size: 50, color: Colors.white),
+                        ),
                       ),
-                      child: Center(
-                        child: emblem != null && emblem.isNotEmpty
-                            ? Image.network(
-                                emblem,
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.contain,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    const Icon(Icons.sports_soccer,
-                                        color: Colors.white),
-                              )
-                            : const Icon(Icons.sports_soccer,
-                                size: 50, color: Colors.white),
+                      title: Text(
+                        competition.name,
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                       ),
-                    ),
-                    title: Text(
-                      competition.name,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    subtitle: Text(
-                      '${competition.startDate} - ${competition.endDate}',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.white70,
-                          ),
+                      subtitle: Text(
+                        '${competition.startDate} - ${competition.endDate}',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Colors.white70,
+                            ),
+                      ),
                     ),
                   ),
                 ),
