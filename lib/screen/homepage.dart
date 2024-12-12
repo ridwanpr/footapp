@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:footapp/models/match_model.dart';
+import 'package:footapp/providers/match_provider.dart';
 import 'package:footapp/widgets/competition_card.dart';
 import 'package:footapp/screen/competitions.dart';
 import 'package:footapp/widgets/top_scorer_card.dart';
@@ -7,6 +9,40 @@ import 'package:footapp/providers/top_scorer_provider.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
+
+  String _formatDate(String dateString) {
+    final DateTime parsedDate = DateTime.parse(dateString);
+    return '${parsedDate.day} ${_getMonthName(parsedDate.month)}, ${parsedDate.year}';
+  }
+
+  String _formatScore(MatchModel match) {
+    if (match.homeScore > 0 || match.awayScore > 0) {
+      return '${match.homeScore} - ${match.awayScore}';
+    }
+    return _formatTime(DateTime.parse(match.date));
+  }
+
+  String _formatTime(DateTime dateTime) {
+    return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')} PM';
+  }
+
+  String _getMonthName(int month) {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    return months[month - 1];
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -178,24 +214,42 @@ class HomePage extends ConsumerWidget {
               ),
               // Latest Matches Section
               const SizedBox(height: 20),
-              const Text(
+              Text(
                 'Latest Matches',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
               const SizedBox(height: 10),
-              const Card(
-                child: ListTile(
-                  leading: Icon(Icons.sports_soccer),
-                  title: Text('Manchester United vs Chelsea'),
-                  subtitle: Text('13 Dec, 2024 | 5:00 PM'),
-                ),
-              ),
-              const Card(
-                child: ListTile(
-                  leading: Icon(Icons.sports_soccer),
-                  title: Text('Liverpool vs Arsenal'),
-                  subtitle: Text('14 Dec, 2024 | 6:00 PM'),
-                ),
+              Consumer(
+                builder: (context, ref, child) {
+                  final matchesAsync = ref.watch(matchProvider);
+
+                  return matchesAsync.when(
+                    data: (matches) {
+                      return Column(
+                        children: matches.map((match) {
+                          return Card(
+                            child: ListTile(
+                              leading: const Icon(Icons.sports_soccer),
+                              title: Text(
+                                  '${match.homeTeam} vs ${match.awayTeam}'),
+                              subtitle: Text(
+                                '${_formatDate(match.date)} | ${_formatScore(match)}',
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    error: (error, stack) => Center(
+                      child: Text('Error loading matches: $error'),
+                    ),
+                  );
+                },
               ),
             ],
           ),

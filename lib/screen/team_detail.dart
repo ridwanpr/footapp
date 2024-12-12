@@ -17,7 +17,6 @@ class TeamDetails extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Team Details'),
-        backgroundColor: Colors.blueGrey[900],
         actions: [
           IconButton(
             icon: Icon(
