@@ -74,7 +74,7 @@ class TeamDetails extends ConsumerWidget {
                         ? () {
                             _launchURL(team.website);
                           }
-                        : null, // Disable button if no website
+                        : null,
                     child: const Text('Visit Official Website'),
                   ),
                   const SizedBox(height: 16.0),
