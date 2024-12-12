@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:footapp/screen/teams.dart';
 
 class CompetitionCard extends StatelessWidget {
   final String title;
   final String imagePath;
   final Color color;
+  final String competitionCode;
 
   const CompetitionCard({
     super.key,
     required this.title,
     required this.imagePath,
     required this.color,
+    required this.competitionCode,
   });
 
   @override
@@ -39,7 +42,12 @@ class CompetitionCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
           onTap: () {
-            
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Teams(competitionCode: competitionCode),
+              ),
+            );
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
