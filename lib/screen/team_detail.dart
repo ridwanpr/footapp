@@ -81,7 +81,7 @@ class TeamDetails extends ConsumerWidget {
                   const Divider(),
                   const SizedBox(height: 16.0),
                   const Text(
-                    'Squad:',
+                    'Squadlist',
                     style:
                         TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
                   ),

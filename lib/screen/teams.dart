@@ -64,7 +64,6 @@ class Teams extends ConsumerWidget {
                       subtitle:
                           Text('Founded: ${team.founded?.toString() ?? ""}'),
                       onTap: () {
-                        // Navigate to Team Detail Screen
                         Navigator.push(
                           context,
                           MaterialPageRoute(

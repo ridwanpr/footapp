@@ -18,11 +18,11 @@ class TeamsModel {
   factory TeamsModel.fromJson(Map<String, dynamic> json) {
     return TeamsModel(
       id: json['id'].toString(),
-      name: json['name'],
-      shortname: json['shortName'],
-      crest: json['crest'],
-      address: json['address'],
-      founded: json['founded'],
+      name: json['name'] ?? '',
+      shortname: json['shortName'] ?? '',
+      crest: json['crest'] ?? '',
+      address: json['address'] ?? '',
+      founded: json['founded'] ?? 0,
     );
   }
 }
