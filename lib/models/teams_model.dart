@@ -5,6 +5,8 @@ class TeamsModel {
   final String crest;
   final String address;
   final int? founded;
+  final String? venue;
+  final String? website;
 
   TeamsModel({
     required this.id,
@@ -13,6 +15,8 @@ class TeamsModel {
     required this.crest,
     required this.address,
     this.founded,
+    this.venue,
+    this.website,
   });
 
   factory TeamsModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +27,8 @@ class TeamsModel {
       crest: json['crest'] ?? '',
       address: json['address'] ?? '',
       founded: json['founded'] ?? 0,
+      venue: json['venue'],
+      website: json['website'],
     );
   }
 }

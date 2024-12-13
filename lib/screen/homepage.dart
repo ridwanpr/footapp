@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/models/match_model.dart';
 import 'package:footapp/providers/match_provider.dart';
 import 'package:footapp/providers/theme_provider.dart';
+import 'package:footapp/screen/search_result.dart';
 import 'package:footapp/widgets/competition_card.dart';
 import 'package:footapp/screen/competitions.dart';
 import 'package:footapp/widgets/top_scorer_card.dart';
@@ -85,7 +86,16 @@ class HomePage extends ConsumerWidget {
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
                 ),
+                onSubmitted: (query) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchResultsScreen(query: query),
+                    ),
+                  );
+                },
               ),
+
               const SizedBox(height: 20),
               // Competitions Section
               InkWell(
