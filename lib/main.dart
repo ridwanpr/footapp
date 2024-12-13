@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:footapp/screen/tabs.dart';
 import 'package:footapp/providers/theme_provider.dart';
+import 'package:footapp/screen/homepage.dart';
 
 void main() {
   runApp(const ProviderScope(child: App()));
@@ -18,7 +18,7 @@ class App extends ConsumerWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: themeMode,
-      home: const Tabs(),
+      home: const HomePage(),
     );
   }
 }

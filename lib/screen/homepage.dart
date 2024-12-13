@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/models/match_model.dart';
 import 'package:footapp/providers/match_provider.dart';
+import 'package:footapp/providers/theme_provider.dart';
 import 'package:footapp/widgets/competition_card.dart';
 import 'package:footapp/screen/competitions.dart';
 import 'package:footapp/widgets/top_scorer_card.dart';
@@ -50,7 +51,24 @@ class HomePage extends ConsumerWidget {
     final bl1Scorers = ref.watch(topScorerProvider('BL1'));
     final pdScorers = ref.watch(topScorerProvider('PD'));
 
+    final themeMode = ref.watch(themeProvider);
+
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home'),
+        actions: [
+          IconButton(
+            icon: Icon(
+              themeMode == ThemeMode.dark
+                  ? Icons.nightlight_round
+                  : Icons.wb_sunny,
+            ),
+            onPressed: () {
+              toggleTheme(ref);
+            },
+          )
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
