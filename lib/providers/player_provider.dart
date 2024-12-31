@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/models/player_model.dart';
+import 'package:footapp/models/player_detail_model.dart';
 import 'package:footapp/services/player_service.dart';
+
+final playerServiceProvider = Provider((ref) => PlayerService());
 
 final playerProvider =
     StateNotifierProvider<PlayerNotifier, AsyncValue<List<PlayerModel>>>((ref) {
-  return PlayerNotifier(PlayerService());
+  final playerService = ref.read(playerServiceProvider);
+  return PlayerNotifier(playerService);
 });
 
 class PlayerNotifier extends StateNotifier<AsyncValue<List<PlayerModel>>> {
@@ -18,6 +22,7 @@ class PlayerNotifier extends StateNotifier<AsyncValue<List<PlayerModel>>> {
       state = const AsyncValue.data([]);
       return;
     }
+
     try {
       state = const AsyncValue.loading();
       final players = await playerService.getPlayers(query);
@@ -27,3 +32,9 @@ class PlayerNotifier extends StateNotifier<AsyncValue<List<PlayerModel>>> {
     }
   }
 }
+
+final playerDetailProvider =
+    FutureProvider.family<PlayerDetailModel, int>((ref, playerId) async {
+  final playerService = ref.read(playerServiceProvider);
+  return playerService.getPlayerDetails(playerId);
+});

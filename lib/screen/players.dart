@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footapp/providers/player_provider.dart';
-import 'package:footapp/providers/theme_provider.dart';
+import 'package:footapp/screen/player_detail.dart';
 
 class PlayerScreen extends ConsumerWidget {
   const PlayerScreen({super.key});
@@ -9,34 +9,22 @@ class PlayerScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playersAsyncValue = ref.watch(playerProvider);
-    final themeMode = ref.watch(themeProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Players'),
-        actions: [
-          IconButton(
-            icon: Icon(
-              themeMode == ThemeMode.dark
-                  ? Icons.nightlight_round
-                  : Icons.wb_sunny,
-            ),
-            onPressed: () {
-              toggleTheme(ref);
-            },
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Search Bar
             TextField(
               onChanged: (query) =>
                   ref.read(playerProvider.notifier).searchPlayers(query),
               decoration: InputDecoration(
-                hintText: 'Search players',
+                hintText: 'Search for players...',
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
@@ -45,14 +33,11 @@ class PlayerScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16.0),
+
             // Player List View
             Expanded(
               child: playersAsyncValue.when(
                 data: (players) {
-                  if (players.isEmpty) {
-                    return const Center(child: Text('No players found.'));
-                  }
-
                   return ListView.builder(
                     itemCount: players.length,
                     itemBuilder: (context, index) {
@@ -76,23 +61,16 @@ class PlayerScreen extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                player.position,
-                                style: const TextStyle(
-                                  fontSize: 14.0,
-                                ),
+                                'Position: ${player.position}',
+                                style: const TextStyle(fontSize: 14.0),
                               ),
-                              const SizedBox(height: 4.0),
                               Text(
                                 'DOB: ${player.dateOfBirth}',
-                                style: const TextStyle(
-                                  fontSize: 12.0,
-                                ),
+                                style: const TextStyle(fontSize: 14.0),
                               ),
                               Text(
                                 'Nationality: ${player.nationality}',
-                                style: const TextStyle(
-                                  fontSize: 12.0,
-                                ),
+                                style: const TextStyle(fontSize: 14.0),
                               ),
                             ],
                           ),
@@ -100,6 +78,15 @@ class PlayerScreen extends ConsumerWidget {
                             Icons.arrow_forward_ios,
                             size: 16.0,
                           ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    PlayerDetailScreen(playerId: player.id),
+                              ),
+                            );
+                          },
                         ),
                       );
                     },
