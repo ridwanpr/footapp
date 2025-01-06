@@ -51,7 +51,7 @@ class PlayerScreen extends ConsumerWidget {
                         child: ListTile(
                           contentPadding: const EdgeInsets.all(16.0),
                           title: Text(
-                            player.name,
+                            player.name!,
                             style: const TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,
@@ -83,7 +83,7 @@ class PlayerScreen extends ConsumerWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    PlayerDetailScreen(playerId: player.id),
+                                    PlayerDetailScreen(playerId: player.id!),
                               ),
                             );
                           },
