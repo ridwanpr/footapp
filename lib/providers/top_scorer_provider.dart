@@ -4,6 +4,7 @@ import 'package:footapp/models/top_scorer.dart';
 
 final topScorerProvider = FutureProvider.family<List<TopScorer>, String>((ref, competitionCode) async {
   final topScorerService = TopScorerService();
-  final season = DateTime.now().year;
+  // final season = DateTime.now().year;
+  const season = 2024;
   return await topScorerService.fetchTopScorers(competitionCode, season);
 });
