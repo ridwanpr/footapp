@@ -1,4 +1,4 @@
-package com.example.footapp
+package com.ridwan.footapp
 
 import io.flutter.embedding.android.FlutterActivity
 
